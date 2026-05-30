@@ -1,36 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JoinAura — Exclusive Creator Membership</title>
-<meta name="description" content="Subscribe for exclusive access to premium creator content, private feeds, and VIP drops.">
-<meta property="og:title" content="JoinAura — Exclusive Creator Membership">
-<meta property="og:description" content="Private access starts here.">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>
-  tailwind.config = {
-    theme: { extend: { colors: { brand: { purple: '#a855f7', pink: '#ec4899', dark: '#0a0a0f', card: '#111118', border: '#1e1e2e', muted: '#6b7280', light: '#e2e8f0', gold: '#f59e0b' } } } }
-  }
-</script>
-<style>
-  body { background: #0a0a0f; color: #e2e8f0; font-family: 'Inter', sans-serif; }
-  .glow-text { background: linear-gradient(135deg, #c084fc 0%, #ffffff 50%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 30px rgba(168,85,247,0.4)); }
-  .glow-btn { background: linear-gradient(135deg, #a855f7, #ec4899); box-shadow: 0 0 20px rgba(168,85,247,0.4); transition: all 0.2s; }
-  .glow-btn:hover { box-shadow: 0 0 40px rgba(168,85,247,0.7); transform: translateY(-1px); }
-  .glass { background: rgba(17,17,24,0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
-  ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #0a0a0f; } ::-webkit-scrollbar-thumb { background: #a855f7; border-radius: 2px; }
-  .faq-answer { display: none; } .faq-answer.open { display: block; }
-  * { box-sizing: border-box; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JoinAura — Exclusive Creator Membership</title>
+  <meta name="description" content="Subscribe for exclusive access to premium creator content, private feeds, and VIP drops.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#a855f7',
+            pink: '#ec4899',
+            dark: '#0a0a0f',
+            card: '#111118',
+            border: '#1e1e2e'
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background: #0a0a0f; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gradient-bg { background: linear-gradient(135deg, #a855f7, #ec4899); }
+    .card-bg { background: #111118; border: 1px solid #1e1e2e; }
+    .glow { box-shadow: 0 0 40px rgba(168,85,247,0.15); }
+    .hero-glow { background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.2) 0%, transparent 70%); }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .float { animation: float 4s ease-in-out infinite; }
+  </style>
 </head>
-<body>
-<nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
-  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-2">
-      <div class="w-8 h-8 rounded-lg glow-btn flex items-center justify-center">
-        <svg width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+<body class="min-h-screen">
+
+  <!-- NAV -->
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2">
+        <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white font-bold text-sm">⚡</div>
+        <span class="font-semibold text-white text-lg">JoinAura</span>
+      </a>
+      <div class="flex items-center gap-4">
+        <a href="auth.html" class="text-gray-400 hover:text-white transition text-sm">Sign In</a>
+        <a href="auth.html?plan=basic" class="gradient-bg text-white px-4 py-2 rounded-full text-sm font-medium hover:opacity-90 transition">Join Now</a>
       </div>
-      <span style="font-family:'Playfair Display',serif" class="font-bold text-lg text-white">JoinAura</span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-glow min-h-screen flex items-center justify-center pt-20 pb-16 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full card-bg border border-purple-500/30 text-purple-400 text-sm mb-8">
+        <span class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+        Exclusive membership — limited spots available
+      </div>
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+        Access the <span class="gradient-text">Inner Circle</span>
+      </h1>
+      <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+        Get exclusive content, early drops, private posts, and direct access that no one else gets. This is your backstage pass.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        <a href="auth.html?plan=basic" class="gradient-bg text-white px-8 py-4 rounded-full text-lg font-semibold hover:opacity-90 transition glow">
+          Join Basic — $9/mo
+        </a>
+        <a href="auth.html?plan=premium" class="card-bg text-white px-8 py-4 rounded-full text-lg font-semibold border border-purple-500/50 hover:border-purple-500 transition">
+          Go Premium — $19/mo
+        </a>
+      </div>
+      <!-- Social Proof -->
+      <div class="flex items-center justify-center gap-6 text-gray-500 text-sm">
+        <span>⭐⭐⭐⭐⭐</span>
+        <span>Join 2,000+ members</span>
+        <span>·</span>
+        <span>Cancel anytime</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="py-20 px-6">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4">What You Get</h2>
+      <p class="text-gray-400 text-center mb-12 text-lg">Everything is locked behind your membership</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="card-bg rounded-2xl p-8 text-center hover:border-purple-500/50 transition">
+          <div class="text-4xl mb-4">🎬</div>
+          <h3 class="text-white font-semibold text-lg mb-2">Exclusive Content</h3>
+          <p class="text-gray-400 text-sm">Videos, posts, and drops you won't find anywhere else. Members-only, always.</p>
+        </div>
+        <div class="card-bg rounded-2xl p-8 text-center hover:border-purple-500/50 transition">
+          <div class="text-4xl mb-4">⚡</div>
+          <h3 class="text-white font-semibold text-lg mb-2">Early Access</h3>
+          <p class="text-gray-400 text-sm">Be first for new drops, releases, and announcements before everyone else.</p>
+        </div>
+        <div class="card-bg rounded-2xl p-8 text-center hover:border-purple-500/50 transition">
+          <div class="text-4xl mb-4">💬</div>
+          <h3 class="text-white font-semibold text-lg mb-2">Direct Access</h3>
+          <p class="text-gray-400 text-sm">Private feed, updates, and content delivered straight to your dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4">Choose Your Plan</h2>
+      <p class="text-gray-400 text-center mb-12 text-lg">Start with Basic or go all-in with Premium</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Basic -->
+        <div class="card-bg rounded-2xl p-8 border border-border">
+          <div class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2">Basic</div>
+          <div class="text-4xl font-bold text-white mb-1">$9<span class="text-lg text-gray-400 font-normal">/mo</span></div>
+          <p class="text-gray-400 text-sm mb-6">Everything you need to get started</p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3 text-gray-300 text-sm"><span class="text-green-400">✓</span> Full content feed access</li>
+            <li class="flex items-center gap-3 text-gray-300 text-sm"><span class="text-green-400">✓</span> New posts & drops</li>
+            <li class="flex items-center gap-3 text-gray-300 text-sm"><span class="text-green-400">✓</span> Member-only community</li>
+            <li class="flex items-center gap-3 text-gray-400 text-sm"><span class="text-gray-600">✗</span> Premium-only content</li>
+            <li class="flex items-center gap-3 text-gray-400 text-sm"><span class="text-gray-600">✗</span> Priority support</li>
+          </ul>
+          <a href="auth.html?plan=basic" class="block w-full text-center gradient-bg text-white py-3 rounded-full font-semibold hover:opacity-90 transition">
+            Get Basic
+          </a>
+        </div>
+        <!-- Premium -->
+        <div class="rounded-2xl p-8 relative" style="background:#1a0a2e; border: 1px solid #a855f7;">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+            <span class="gradient-bg text-white text-xs font-bold px-4 py-1 rounded-full">MOST POPULAR</span>
+          </div>
+          <div class="text-purple-400 text-sm font-medium uppercase tracking-wider mb-2">Premium</div>
+          <div class="text-4xl font-bold text-white mb-1">$19<span class="text-lg text-gray-400 font-normal">/mo</span></div>
+          <p class="text-gray-400 text-sm mb-6">The full inner circle experience</p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3 text-gray-300 text-sm"><span class="text-green-400">✓</span> Everything in Basic</li>
+            <li class="flex items-center gap-3 text-gray-300 text-sm"><span class="text-green-400">✓</span> Premium-only content</li>
+            <li class="flex items-center gap-3 text-gray-300 text-sm"><span class="text-green-400">✓</span> Early access to drops</li>
+            <li class="flex items-center gap-3 text-gray-300 text-sm"><span class="text-green-400">✓</span> Priority support</li>
+            <li class="flex items-center gap-3 text-gray-300 text-sm"><span class="text-green-400">✓</span> VIP badge</li>
+          </ul>
+          <a href="auth.html?plan=premium" class="block w-full text-center gradient-bg text-white py-3 rounded-full font-semibold hover:opacity-90 transition glow">
+            Go Premium
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL CAPTURE / CTA -->
+  <section class="py-20 px-6">
+    <div class="max-w-2xl mx-auto text-center card-bg rounded-3xl p-12 glow">
+      <h2 class="text-3xl font-bold text-white mb-4">Not ready yet?</h2>
+      <p class="text-gray-400 mb-8">Get notified about new content drops and exclusive offers.</p>
+      <form id="emailForm" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input type="email" id="emailInput" placeholder="your@email.com" required
+          class="flex-1 bg-white/5 border border-white/10 text-white placeholder-gray-500 px-4 py-3 rounded-full focus:outline-none focus:border-purple-500 transition">
+        <button type="submit" class="gradient-bg text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition whitespace-nowrap">
+          Notify Me
+        </button>
+      </form>
+      <p id="emailMsg" class="mt-4 text-sm text-purple-400 hidden">You're on the list!</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-8 px-6 border-t border-border">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 gradient-bg rounded-md flex items-center justify-center text-white text-xs">⚡</div>
+        <span class="text-gray-400 text-sm">© 2024 JoinAura. All rights reserved.</span>
+      </div>
+      <div class="flex gap-6 text-gray-500 text-sm">
+        <a href="auth.html" class="hover:text-white transition">Sign In</a>
+        <a href="#pricing" class="hover:text-white transition">Pricing</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Supabase
+    const SUPABASE_URL = 'https://tzvhfdfphffsqpxnwztu.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6dmhmZGZwaGZmc3FweG53enR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzYyNzksImV4cCI6MjA5NTY1MjI3OX0.AInbbSlpEpuDEhQP9I2Qy7I4blpOSCI4Y9e0zi1it5Q';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Sticky nav
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 20) {
+        nav.style.background = 'rgba(10,10,15,0.95)';
+        nav.style.backdropFilter = 'blur(12px)';
+        nav.style.borderBottom = '1px solid #1e1e2e';
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.borderBottom = 'none';
+      }
+    });
+
+    // Email form (MailerLite)
+    document.getElementById('emailForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value;
+      const msg = document.getElementById('emailMsg');
+      try {
+        await fetch('https://connect.mailerlite.com/api/subscribers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer YOUR_MAILERLITE_API_KEY'
+          },
+          body: JSON.stringify({ email, groups: ['188836559485666649'] })
+        });
+        // Also save to Supabase
+        await supabase.from('email_leads').insert({ email });
+      } catch(err) {}
+      msg.classList.remove('hidden');
+      document.getElementById('emailInput').value = '';
+    });
+
+    // Redirect logged-in users to feed
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const { data: sub } = await supabase
+          .from('subscriptions')
+          .select('status')
+          .eq('user_id', session.user.id)
+          .single();
+        if (sub && sub.status === 'active') {
+          window.location.href = 'feed.html';
+        }
+      }
+    })();
+  </script>
+</body>
+  </html>
