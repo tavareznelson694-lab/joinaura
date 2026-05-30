@@ -8,163 +8,102 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  body { background: #0a0a0f; color: #e2e8f0; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
-  .glow-btn { background: linear-gradient(135deg, #a855f7, #ec4899); box-shadow: 0 0 20px rgba(168,85,247,0.4); transition: all 0.2s; }
-  .glow-btn:hover { box-shadow: 0 0 40px rgba(168,85,247,0.7); }
-  .glow-text { background: linear-gradient(135deg, #c084fc 0%, #ffffff 50%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .glass { background: rgba(17,17,24,0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
-  input:focus { outline: none; border-color: rgba(168,85,247,0.6) !important; }
+body { background: #0a0a0f; color: #e2e8f0; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+.glow-btn { background: linear-gradient(135deg, #a855f7, #ec4899); box-shadow: 0 0 20px rgba(168,85,247,0.4); transition: all 0.2s; }
+.glow-btn:hover { box-shadow: 0 0 40px rgba(168,85,247,0.7); }
+.glow-text { background: linear-gradient(135deg, #c084fc 0%, #ffffff 50%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.glass { background: rgba(17,17,24,0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
+input:focus { outline: none; border-color: rgba(168,85,247,0.6) !important; }
 </style>
 </head>
 <body>
 <nav class="fixed top-0 inset-x-0 z-50" style="background:rgba(17,17,24,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06)">
-  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-2">
-      <div class="w-8 h-8 rounded-lg glow-btn flex items-center justify-center">
-        <svg width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      </div>
-      <span style="font-family:'Playfair Display',serif" class="font-bold text-lg text-white">JoinAura</span>
-    </a>
-  </div>
+<div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+<a href="index.html" class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg glow-btn flex items-center justify-center">
+<svg width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+</div>
+<span style="font-family:'Playfair Display',serif" class="font-bold text-lg text-white">JoinAura</span>
+</a>
+</div>
 </nav>
-
 <main class="flex-1 flex items-center justify-center px-4 pt-16">
-  <div class="w-full max-w-md">
-    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at 50% 30%,rgba(168,85,247,0.1) 0%,transparent 60%)"></div>
-    <div class="relative glass rounded-2xl p-8 sm:p-10">
-      <div class="text-center mb-8">
-        <h1 style="font-family:'Playfair Display',serif" class="text-3xl font-bold text-white mb-2">
-          <span id="form-title">Welcome back</span>
-        </h1>
-        <p class="text-gray-400 text-sm" id="form-subtitle">Sign in to access your exclusive content</p>
-      </div>
-
-      <!-- Tab switcher -->
-      <div class="flex rounded-xl p-1 mb-8" style="background:#0a0a0f;border:1px solid #1e1e2e">
-        <button id="tab-login" onclick="switchTab('login')" class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all" style="background:linear-gradient(135deg,#a855f7,#ec4899);color:white">Sign In</button>
-        <button id="tab-signup" onclick="switchTab('signup')" class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-gray-400 transition-all hover:text-white">Create Account</button>
-      </div>
-
-      <!-- Error / Success messages -->
-      <div id="msg-error" class="hidden mb-4 p-4 rounded-xl text-red-400 text-sm" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3)"></div>
-      <div id="msg-success" class="hidden mb-4 p-4 rounded-xl text-green-400 text-sm" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3)"></div>
-
-      <!-- Login Form -->
-      <form id="login-form" onsubmit="handleLogin(event)">
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
-            <input type="email" id="login-email" placeholder="you@example.com" required
-              class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-600 border text-sm"
-              style="background:#0a0a0f;border-color:#1e1e2e">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-400 mb-2">Password</label>
-            <input type="password" id="login-password" placeholder="••••••••" required
-              class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-600 border text-sm"
-              style="background:#0a0a0f;border-color:#1e1e2e">
-          </div>
-          <button type="submit" id="login-btn" class="glow-btn w-full text-white font-semibold py-4 rounded-xl text-base mt-2">
-            Sign In
-          </button>
-        </div>
-      </form>
-
-      <!-- Signup Form -->
-      <form id="signup-form" class="hidden" onsubmit="handleSignup(event)">
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
-            <input type="email" id="signup-email" placeholder="you@example.com" required
-              class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-600 border text-sm"
-              style="background:#0a0a0f;border-color:#1e1e2e">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-400 mb-2">Password</label>
-            <input type="password" id="signup-password" placeholder="Min. 6 characters" required minlength="6"
-              class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-600 border text-sm"
-              style="background:#0a0a0f;border-color:#1e1e2e">
-          </div>
-          <button type="submit" id="signup-btn" class="glow-btn w-full text-white font-semibold py-4 rounded-xl text-base mt-2">
-            Create Account
-          </button>
-        </div>
-      </form>
-
-      <p class="text-center text-gray-600 text-xs mt-6">
-        By continuing you agree to our <a href="#" class="text-purple-400 hover:underline">Terms</a> and <a href="#" class="text-purple-400 hover:underline">Privacy Policy</a>
-      </p>
-    </div>
-
-    <p class="text-center text-gray-500 text-sm mt-6">
-      Don't have a subscription? <a href="index.html#pricing" class="text-purple-400 hover:underline">View plans →</a>
-    </p>
-  </div>
+<div class="w-full max-w-md">
+<div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at 50% 30%,rgba(168,85,247,0.1) 0%,transparent 60%)"></div>
+<div class="relative glass rounded-2xl p-8 sm:p-10">
+<div class="text-center mb-8">
+<h1 style="font-family:'Playfair Display',serif" class="text-3xl font-bold text-white mb-2"><span id="form-title">Welcome back</span></h1>
+<p class="text-gray-400 text-sm" id="form-subtitle">Sign in to access your exclusive content</p>
+</div>
+<div class="flex rounded-xl p-1 mb-8" style="background:#0a0a0f;border:1px solid #1e1e2e">
+<button id="tab-login" onclick="switchTab('login')" class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all" style="background:linear-gradient(135deg,#a855f7,#ec4899);color:white">Sign In</button>
+<button id="tab-signup" onclick="switchTab('signup')" class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-gray-400 transition-all hover:text-white">Create Account</button>
+</div>
+<div id="msg-error" class="hidden mb-4 p-4 rounded-xl text-red-400 text-sm" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3)"></div>
+<div id="msg-success" class="hidden mb-4 p-4 rounded-xl text-green-400 text-sm" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3)"></div>
+<form id="login-form" onsubmit="handleLogin(event)">
+<div class="space-y-4">
+<div><label class="block text-sm font-medium text-gray-400 mb-2">Email</label><input type="email" id="login-email" placeholder="you@example.com" required class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-600 border text-sm" style="background:#0a0a0f;border-color:#1e1e2e"></div>
+<div><label class="block text-sm font-medium text-gray-400 mb-2">Password</label><input type="password" id="login-password" placeholder="..." required class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-600 border text-sm" style="background:#0a0a0f;border-color:#1e1e2e"></div>
+<button type="submit" id="login-btn" class="glow-btn w-full text-white font-semibold py-4 rounded-xl text-base mt-2">Sign In</button>
+</div>
+</form>
+<form id="signup-form" class="hidden" onsubmit="handleSignup(event)">
+<div class="space-y-4">
+<div><label class="block text-sm font-medium text-gray-400 mb-2">Email</label><input type="email" id="signup-email" placeholder="you@example.com" required class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-600 border text-sm" style="background:#0a0a0f;border-color:#1e1e2e"></div>
+<div><label class="block text-sm font-medium text-gray-400 mb-2">Password</label><input type="password" id="signup-password" placeholder="Min. 6 characters" required minlength="6" class="w-full px-4 py-3 rounded-xl text-white placeholder-gray-600 border text-sm" style="background:#0a0a0f;border-color:#1e1e2e"></div>
+<button type="submit" id="signup-btn" class="glow-btn w-full text-white font-semibold py-4 rounded-xl text-base mt-2">Create Account</button>
+</div>
+</form>
+<p class="text-center text-gray-600 text-xs mt-6">By continuing you agree to our <a href="#" class="text-purple-400 hover:underline">Terms</a> and <a href="#" class="text-purple-400 hover:underline">Privacy Policy</a></p>
+</div>
+<p class="text-center text-gray-500 text-sm mt-6">Don't have a subscription? <a href="index.html#pricing" class="text-purple-400 hover:underline">View plans</a></p>
+</div>
 </main>
-
 <script>
-const SUPABASE_URL = 'https://tzvhfdfphffsqpxnwztu.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6dmhmZGZwaGZmc3FweG53enR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzYyNzksImV4cCI6MjA5NTY1MjI3OX0.AInbbSlpEpuDEhQP9I2Qy7I4blpOSCI4Y9e0zi1it5Q';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// Check if already logged in
-supabase.auth.getSession().then(({ data: { session } }) => {
-  if (session) { window.location.href = 'feed.html'; }
+const SUPABASE_URL='https://tzvhfdfphffsqpxnwztu.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR6dmhmZGZwaGZmc3FweG53enR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzYyNzksImV4cCI6MjA5NTY1MjI3OX0.AInbbSlpEpuDEhQP9I2Qy7I4blpOSCI4Y9e0zi1it5Q';
+const STRIPE_BASIC='https://buy.stripe.com/8x24gy6R41DG30T4gK5ZC03';
+const STRIPE_PREMIUM='https://buy.stripe.com/5kQbJ04IW5TW6d5dRk5ZC04';
+const supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const urlParams=new URLSearchParams(window.location.search);
+const plan=urlParams.get('plan');
+supabase.auth.getSession().then(({data:{session}})=>{
+  if(session){
+    if(plan){const url=plan==='premium'?STRIPE_PREMIUM:STRIPE_BASIC;window.location.href=url+'?prefilled_email='+encodeURIComponent(session.user.email);}
+    else{window.location.href='feed.html';}
+  }
 });
-
-// Check URL params for plan redirect
-const urlParams = new URLSearchParams(window.location.search);
-const plan = urlParams.get('plan');
-if (plan) { switchTab('signup'); }
-
-function switchTab(tab) {
-  const loginForm = document.getElementById('login-form');
-  const signupForm = document.getElementById('signup-form');
-  const tabLogin = document.getElementById('tab-login');
-  const tabSignup = document.getElementById('tab-signup');
-  const title = document.getElementById('form-title');
-  const subtitle = document.getElementById('form-subtitle');
+if(plan){switchTab('signup');}
+function switchTab(tab){
+  const lf=document.getElementById('login-form'),sf=document.getElementById('signup-form');
+  const tl=document.getElementById('tab-login'),ts=document.getElementById('tab-signup');
+  const title=document.getElementById('form-title'),sub=document.getElementById('form-subtitle');
   clearMessages();
-  if (tab === 'login') {
-    loginForm.classList.remove('hidden'); signupForm.classList.add('hidden');
-    tabLogin.style.background = 'linear-gradient(135deg,#a855f7,#ec4899)'; tabLogin.style.color = 'white';
-    tabSignup.style.background = 'none'; tabSignup.style.color = '#6b7280';
-    title.textContent = 'Welcome back'; subtitle.textContent = 'Sign in to access your exclusive content';
-  } else {
-    signupForm.classList.remove('hidden'); loginForm.classList.add('hidden');
-    tabSignup.style.background = 'linear-gradient(135deg,#a855f7,#ec4899)'; tabSignup.style.color = 'white';
-    tabLogin.style.background = 'none'; tabLogin.style.color = '#6b7280';
-    title.textContent = 'Join JoinAura'; subtitle.textContent = 'Create your account and subscribe';
-  }
+  if(tab==='login'){lf.classList.remove('hidden');sf.classList.add('hidden');tl.style.background='linear-gradient(135deg,#a855f7,#ec4899)';tl.style.color='white';ts.style.background='none';ts.style.color='#6b7280';title.textContent='Welcome back';sub.textContent='Sign in to access your exclusive content';}
+  else{sf.classList.remove('hidden');lf.classList.add('hidden');ts.style.background='linear-gradient(135deg,#a855f7,#ec4899)';ts.style.color='white';tl.style.background='none';tl.style.color='#6b7280';title.textContent='Join JoinAura';sub.textContent='Create your account then subscribe';}
 }
-
-function showError(msg) { const el = document.getElementById('msg-error'); el.textContent = msg; el.classList.remove('hidden'); }
-function showSuccess(msg) { const el = document.getElementById('msg-success'); el.textContent = msg; el.classList.remove('hidden'); }
-function clearMessages() { document.getElementById('msg-error').classList.add('hidden'); document.getElementById('msg-success').classList.add('hidden'); }
-
-async function handleLogin(e) {
-  e.preventDefault(); clearMessages();
-  const btn = document.getElementById('login-btn');
-  btn.textContent = 'Signing in...'; btn.disabled = true;
-  const email = document.getElementById('login-email').value;
-  const password = document.getElementById('login-password').value;
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) { showError(error.message); btn.textContent = 'Sign In'; btn.disabled = false; }
-  else { window.location.href = 'feed.html'; }
+function showError(msg){const el=document.getElementById('msg-error');el.textContent=msg;el.classList.remove('hidden');}
+function showSuccess(msg){const el=document.getElementById('msg-success');el.textContent=msg;el.classList.remove('hidden');}
+function clearMessages(){document.getElementById('msg-error').classList.add('hidden');document.getElementById('msg-success').classList.add('hidden');}
+async function handleLogin(e){
+  e.preventDefault();clearMessages();
+  const btn=document.getElementById('login-btn');btn.textContent='Signing in...';btn.disabled=true;
+  const email=document.getElementById('login-email').value;
+  const password=document.getElementById('login-password').value;
+  const{error}=await supabase.auth.signInWithPassword({email,password});
+  if(error){showError(error.message);btn.textContent='Sign In';btn.disabled=false;}
+  else{if(plan){const url=plan==='premium'?STRIPE_PREMIUM:STRIPE_BASIC;window.location.href=url+'?prefilled_email='+encodeURIComponent(email);}else{window.location.href='feed.html';}}
 }
-
-async function handleSignup(e) {
-  e.preventDefault(); clearMessages();
-  const btn = document.getElementById('signup-btn');
-  btn.textContent = 'Creating account...'; btn.disabled = true;
-  const email = document.getElementById('signup-email').value;
-  const password = document.getElementById('signup-password').value;
-  const { error } = await supabase.auth.signUp({ email, password });
-  if (error) { showError(error.message); btn.textContent = 'Create Account'; btn.disabled = false; }
-  else {
-    if (plan) { window.location.href = plan === 'premium' ? 'https://buy.stripe.com/5kQbJ04IW5TW6d5dRk5ZC04' : 'https://buy.stripe.com/8x24gy6R41DG30T4gK5ZC03'; }
-    else { showSuccess('Account created! Check your email to confirm, then sign in.'); btn.textContent = 'Create Account'; btn.disabled = false; switchTab('login'); }
-  }
+async function handleSignup(e){
+  e.preventDefault();clearMessages();
+  const btn=document.getElementById('signup-btn');btn.textContent='Creating account...';btn.disabled=true;
+  const email=document.getElementById('signup-email').value;
+  const password=document.getElementById('signup-password').value;
+  const{error}=await supabase.auth.signUp({email,password});
+  if(error){showError(error.message);btn.textContent='Create Account';btn.disabled=false;return;}
+  if(plan){const url=plan==='premium'?STRIPE_PREMIUM:STRIPE_BASIC;window.location.href=url+'?prefilled_email='+encodeURIComponent(email);}
+  else{showSuccess('Account created! You can now sign in.');btn.textContent='Create Account';btn.disabled=false;switchTab('login');}
 }
 </script>
 </body>
